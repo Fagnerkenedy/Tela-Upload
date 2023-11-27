@@ -1,10 +1,11 @@
 import React from "react";
-import { Form, Input, InputNumber, Button, Radio, Table, Row, Select, AutoComplete, message, Col, Space, Divider, Popconfirm } from "antd";
+import { Form, Input, Button, Table, Row, Select, AutoComplete, message, Col, Space, Divider, Popconfirm } from "antd";
 import { Link } from 'react-router-dom';
 import { Component } from "react";
 import axios from "axios";
 
-
+const linkApi = process.env.REACT_APP_LINK_API
+console.log("process env:", `${linkApi}/fields/create`)
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -51,7 +52,7 @@ class UserRecord extends Component {
 
     fetchUser() {
         axios
-            .get("http://localhost:3005/fields/read")
+            .get(`${linkApi}/fields/read`)
             .then(response => {
                 console.log(response.data);
                 const sortedUserRecords = response.data.reverse();
@@ -71,7 +72,7 @@ class UserRecord extends Component {
 
     createUserRecord(userRecord) {
         axios
-            .post("http://localhost:3005/fields/create", userRecord)
+            .post(`${linkApi}/fields/create`, userRecord)
             .then(response => {
                 userRecord.id = response.data.id;
                 this.setState({
@@ -89,7 +90,7 @@ class UserRecord extends Component {
 
     updateUserRecord(userRecord) {
         const { name, api, type, module, lookup_field } = userRecord.data;
-        fetch("http://localhost:3005/fields/update/" + userRecord.id, {
+        fetch(`${linkApi}/fields/update/` + userRecord.id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -117,7 +118,7 @@ class UserRecord extends Component {
     deleteUser(id) {
         console.log(id);
         axios
-            .delete("http://localhost:3005/fields/delete/" + id)
+            .delete(`${linkApi}/fields/delete/` + id)
             .then(response => {
                 console.log(response);
                 this.fetchUser();
