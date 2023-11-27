@@ -3,19 +3,15 @@ import { Content, Footer } from "antd/lib/layout/layout";
 import UploadComponent from "../../components/Upload/UploadComponent";
 import { useNavigate } from "react-router-dom";
 import { MainContext } from "../../providers/MainContext";
-import { CloudDownloadOutlined } from '@ant-design/icons';
-import { LeftOutlined } from "@ant-design/icons";
+import { CloudDownloadOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import Tread from "../../components/Tread";
-
+import './styles.css'
 import wikiImg from "../../images/wiki.png";
 import { Row, Col, Button, Typography } from "antd";
 const { Link } = Typography;
 
 const Home = () => {
   const navigate = useNavigate();
-  async function request() {
-    navigate(`/home`)
-  }
 
   const { setTreadStage, setFinalData, setMappedFields } = React.useContext(MainContext);
 
@@ -32,9 +28,22 @@ const Home = () => {
           
           <Col >
             <Row style={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
-              <img src={wikiImg} alt="logo Wiki" />
+              <img src={wikiImg} alt="logo Wiki" style={{ width: "330px" }} />
               <UploadComponent></UploadComponent>
 
+            </Row>
+            <Row style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px"}}>
+              <Button
+                level={5}
+                onClick={() => {
+                  setMappedFields([])
+                  return navigate("/fields");
+                }}
+                className="custom-button"
+                >
+                  <PlusSquareOutlined style={{ fontSize: "15px" }} />
+                  Adicionar colunas da planilha
+                </Button>
             </Row>
             <Row style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px" }}>
               <a href="wiki" style={{ border: "none", background: "transparent", color: "#ea7e02", display: "flex", alignItems: "center" }} type="submit"
@@ -56,18 +65,6 @@ const Home = () => {
                 Baixar Planilha modelo
               </a>
 
-            </Row>
-            <Row style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px"}}>
-              <Link
-                level={5}
-                onClick={() => {
-                  setMappedFields([])
-                  return navigate("/fields");
-                }}
-                style={{color: "#ea7e02"}}
-                >
-                  Mapear colunas da planilha
-                </Link>
             </Row>
           </Col>
 

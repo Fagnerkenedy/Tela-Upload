@@ -135,7 +135,7 @@ module.exports = {
       return { ...acc, [tag.name.replace(/[`~!@#$%^&*()_|+\-–=?;:'"" ",.<>\{\}\[\]\\\/]/gi, '')]: tag.id }
     }, {})
 
-    console.log(tags);
+    console.log("Tags:",tags);
     Promise.all(lookupPromises).then(() => {
       // Build final [object] for API
       const apiData = sheetRows.map(row => {
@@ -166,7 +166,9 @@ module.exports = {
 
       zoho.updateRecords("Sales_Orders", apiData, (error, resultado) => {
         successArray.push(...resultado.success)
+        console.log("successArray",successArray)
         errorArray.push(...resultado.error)
+        console.log("errorArray",errorArray[0].error.details)
 
       }).then(response => {
         fs.unlinkSync("./uploads/" + filename, (err) => {

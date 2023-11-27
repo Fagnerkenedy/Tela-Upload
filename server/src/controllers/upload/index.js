@@ -174,6 +174,7 @@ module.exports = {
 
 
     const columns = Object.keys(sheet[0]);
+    console.log("columns:",columns)
 
     //FILTRO DE COLUNA SALESORDER
     if (!columns.includes("SALESORDERID")) {
@@ -184,14 +185,16 @@ module.exports = {
     }
 
     const findColumns = await Field.find()
-    const matchedColumns = findColumns.map(acceptedColum => {
-      console.log(acceptedColum)
+    const acceptedColumns = findColumns.map(acceptedColumn => acceptedColumn.name);
 
-      let matchedColumns = columns.filter((column) =>
-        acceptedColum.name.includes(column)
-      );
-      return matchedColumns
-    })
-    return res.json({ matchedColumns: matchedColumns, filename: filename });
+    // Filtrar as colunas que têm correspondência
+    const matchedColumns = columns.filter(column => acceptedColumns.includes(column));
+
+    // Encontrar as colunas que não têm correspondência
+    const unmatchedColumnsDb = acceptedColumns.filter(column => !columns.includes(column));
+    const unmatchedColumnsSheet = columns.filter(column => !acceptedColumns.includes(column));
+
+    // Agora você pode retornar as colunas correspondentes e não correspondentes
+    return res.json({ matchedColumns, unmatchedColumnsDb, unmatchedColumnsSheet, filename });
   },
 };

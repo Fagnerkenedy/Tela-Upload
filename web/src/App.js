@@ -12,6 +12,7 @@ import wikiImg from "./images/wiki.png";
 import "./styles.css"
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Col } from "antd";
 
 
 function App() {
@@ -28,22 +29,20 @@ function App() {
         pauseOnHover
       />
 
-
-      <Header>
-        <a href="#"><img src={wikiImg} alt="logo Wiki" width={"100px"} /></a>
+      <Header className="custom-header">
+        <a href="#"><img src={wikiImg} alt="logo Wiki" width={"90px"} /></a>
       </Header>
 
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<Home></Home>}></Route>
-          <Route path="/fields" element={<Fields></Fields>}></Route>
-          <Route path="/mapping" element={<Mapping></Mapping>}></Route>
-          <Route path="/processing/:filename" element={<Processing></Processing>}></Route>
-          <Route path="/result" element={<Result></Result>}></Route>
-          <Route path="/*" element={<NotFound />}></Route>
-        </Routes>
-
-      </HashRouter>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<Home></Home>}></Route>
+            <Route path="/fields" element={<Fields></Fields>}></Route>
+            <Route path="/mapping" element={<Mapping></Mapping>}></Route>
+            <Route path="/processing/:filename" element={<Processing></Processing>}></Route>
+            <Route path="/result" element={<Result></Result>}></Route>
+            <Route path="/*" element={<NotFound />}></Route>
+          </Routes>
+        </HashRouter>
 
     </MainProvider>
   );

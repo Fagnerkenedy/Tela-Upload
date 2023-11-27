@@ -23,18 +23,16 @@ const Result = () => {
 
     return <div>
         <Tread></Tread>
-        <Row>
-            <Col span={3} offset={19}>
+        <Row style={{ padding: "0 100px" }}>
+            <Col span={2} offset={20}>
                 <Button className='buttonHome' onClick={() => navigate("/")}>Nova Carga</Button>
             </Col>
-
         </Row>
-        <Row style={{ marginTop: "10px" }}>
+        <Row style={{ marginTop: "15px", padding: "0 100px" }}>
             <Col span={9} offset={2}>
                 <div>
                     {finalData && <List
-                        header={<div><CheckOutlined style={{ color: "#FFD101", fontSize: "40px", display: "inline-block" }} /><h2 style={{ display: "inline-block", marginLeft: "20px", fontFamily: "'Montserrat', sans- serif" }}>Sucesso</h2></div>}
-
+                        header={<div><CheckOutlined style={{ color: "#4dff56", fontSize: "40px", display: "inline-block" }} /><h2 style={{ display: "inline-block", marginLeft: "20px", fontFamily: "'Montserrat', sans- serif" }}>Sucesso</h2></div>}
                         bordered
                         dataSource={finalData.success}
                         renderItem={item => (
@@ -45,10 +43,10 @@ const Result = () => {
                     />}
                 </div>
             </Col>
-            <Col span={9} offset={1} >
+            <Col span={9} offset={2} >
                 <div>
                     {finalData && <List
-                        header={<div><DislikeOutlined style={{ color: "#ea7e02", fontSize: "40px", display: "inline-block" }} /><h2 style={{ display: "inline-block", marginLeft: "20px", fontFamily: "'Montserrat', sans- serif" }}>Não Importados</h2></div>}
+                        header={<div><DislikeOutlined style={{ color: "#ff4d56", fontSize: "40px", display: "inline-block" }} /><h2 style={{ display: "inline-block", marginLeft: "20px", fontFamily: "'Montserrat', sans- serif" }}>Não Importados</h2></div>}
                         bordered
                         dataSource={finalData.error}
                         renderItem={item => (

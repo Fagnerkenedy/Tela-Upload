@@ -18,6 +18,8 @@ app.use(function (req, res, next) {
 app.use(express.json());
 
 //routes
+app.use("/uploadLogo", require("./routes/uploadLogo"));
+
 app.use("/fields", require("./routes/fields"));
 
 app.use("/upload", require("./routes/upload"));

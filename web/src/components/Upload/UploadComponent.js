@@ -10,7 +10,7 @@ import "./styles.css"
 
 const UploadComponent = () => {
   let navigate = useNavigate();
-  const { setTreadStage, setMappedFields, setFilename } = React.useContext(MainContext);
+  const { setTreadStage, setMappedFields, setFilename, setunmappedFieldsDb, setunmappedFieldsSheet } = React.useContext(MainContext);
 
   async function customRequest(param) {
 
@@ -35,6 +35,8 @@ const UploadComponent = () => {
       param.onSuccess();
       message.success("Arquivo adicionado com sucesso");
       setMappedFields([...json.matchedColumns]);
+      setunmappedFieldsDb([...json.unmatchedColumnsDb]);
+      setunmappedFieldsSheet([...json.unmatchedColumnsSheet]);
       setFilename(json.filename)
       setTreadStage(1);
       return navigate("/mapping");
@@ -66,7 +68,7 @@ const UploadComponent = () => {
             maxCount={1}
             style={{ margin: "none" }}
           >
-            <Button icon={<UploadOutlined style={{ top: "-13px ", position: "relative" }} />} style={{ top: "26px" }} className="buttonUpload">Carregar Arquivo</Button>
+            <Button icon={<UploadOutlined style={{ top: "-13px ", position: "relative" }} />} style={{ top: "5px" }} className="buttonUpload">Carregar Arquivo</Button>
           </Upload>
         </Space>
       </Col>

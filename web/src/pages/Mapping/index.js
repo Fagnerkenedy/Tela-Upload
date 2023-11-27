@@ -1,18 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, List, Row, Typography } from "antd";
+import { Button, Col, List, Row, Table, Typography, Space,  } from "antd";
+import { ExclamationCircleOutlined, CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
 import { LeftOutlined } from "@ant-design/icons";
 import Tread from "../../components/Tread";
 
 import { MainContext } from "../../providers/MainContext";
 import "./styles.css"
 import { toast } from 'react-toastify';
+import { Footer } from "antd/lib/layout/layout";
 
 
 function Mapping() {
   const { Title } = Typography;
   const navigate = useNavigate();
-  const { mappedFields, setMappedFields, setTreadStage, filename } = React.useContext(MainContext);
+  const { mappedFields, setMappedFields, setTreadStage, filename, unmappedFieldsDb, unmappedFieldsSheet } = React.useContext(MainContext);
 
   async function request() {
     navigate(`/processing/${filename}`)
@@ -37,9 +39,42 @@ function Mapping() {
 
   }, [setTreadStage, mappedFields, navigate]);
 
+  const column1 = [
+    {
+      title: (
+        <Space>
+          <CheckCircleFilled style={{ color: "green", fontSize: "20px" }} />
+          Colunas mapeadas
+        </Space>
+      )
+    }
+  ]
+
+  const column2 = [
+    {
+      title: (
+        <Space>
+          <CloseCircleOutlined style={{ color: "red", fontSize: "20px" }} />
+          Campos que não estão na planilha
+        </Space>
+      ),
+    },
+  ];
+
+  const column3 = [
+    {
+      title: (
+        <Space>
+          <CloseCircleOutlined  style={{ color: "red", fontSize: "20px" }} />
+          Campos que não estão adicionados
+        </Space>
+      ),
+    },
+  ];
+
   return (<>
     <Tread></Tread>
-    <Col span={16} offset={4}>
+    <Col span={16} offset={4} style={{ paddingBottom: "90px" }}>
       <Row>
         <Col span={1}>
           <Button
@@ -55,17 +90,36 @@ function Mapping() {
         <Col span={6} offset={8}>
           <Title level={3} style={{ fontFamily: "'Montserrat', sans- serif" }}>Colunas Mapeadas</Title>
         </Col>
-        <Col span={1} offset={6}>
+        <Col span={3} offset={6}>
           <Button className="buttonConfirm" onClick={request}>Confirmar</Button>
         </Col>
       </Row>
-
-      <List
-        size="small"
-        bordered
-        dataSource={mappedFields}
-        renderItem={(item) => <List.Item>{item}</List.Item>}
-      />
+      <Row>
+        <Col span={8}>
+          <Table
+            bordered
+            columns={column1}
+            dataSource={mappedFields}
+            pagination={false}
+          />
+        </Col>
+        <Col span={8}>
+          <Table
+            bordered
+            columns={column2}
+            dataSource={unmappedFieldsDb}
+            pagination={false}
+          />
+        </Col>
+        <Col span={8}>
+          <Table
+            bordered
+            columns={column3}
+            dataSource={unmappedFieldsSheet}
+            pagination={false}
+          />
+        </Col>
+      </Row>
     </Col>
   </>
   );

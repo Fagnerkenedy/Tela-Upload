@@ -1,7 +1,6 @@
 import React from "react";
-import { Form, Input, InputNumber, Button, Radio, Table, Row, Select, AutoComplete, message, Col } from "antd";
+import { Form, Input, InputNumber, Button, Radio, Table, Row, Select, AutoComplete, message, Col, Space, Divider, Popconfirm } from "antd";
 import { Link } from 'react-router-dom';
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Component } from "react";
 import axios from "axios";
 
@@ -12,9 +11,7 @@ const { Option } = Select;
 class UserRecord extends Component {
     constructor() {
         super();
-        const title = () => "CRUD Application of User Records";
         const showHeader = true;
-        const footer = () => "This is the footer of our Application";
         this.state = {
             formLayout: "vertical",
             currentId: null,
@@ -32,9 +29,7 @@ class UserRecord extends Component {
                 loading: false,
                 pagination: true,
                 size: "small",
-                title,
                 showHeader,
-                footer,
                 scroll: undefined
             }
         };
@@ -247,25 +242,17 @@ class UserRecord extends Component {
         });
     };
 
-    // changeType = e => {
-    //     console.log("Change Type:", e)
-    //     const value = e.target ? e.target.value : e;
-    //     this.setState({
-    //         newUser: { ...this.state.newUser, type: value }
-    //     });
-    // };
-
     changeType = e => {
         const value = e.target ? e.target.value : e;
         this.setState(prevState => {
             let updatedUser = { ...prevState.newUser, type: value };
-    
+
             // Se o tipo de campo não for 'lookup', desativa os campos relacionados
             if (value !== 'lookup') {
                 updatedUser.module = '';
                 updatedUser.lookup_field = '';
             }
-    
+
             return { newUser: updatedUser };
         });
     };
@@ -307,7 +294,7 @@ class UserRecord extends Component {
         const formItemLayout =
             formLayout === "vertical"
                 ? {
-                    labelCol: { span: 3 },
+                    labelCol: { span: 4 },
                     wrapperCol: { span: 24 }
                 }
                 : null;
@@ -338,7 +325,7 @@ class UserRecord extends Component {
             );
         } else {
             button = (
-                <Button className="buttonConfirm" type="primary" size="default" onClick={this.saveNewUser}>
+            <Button className="buttonConfirm" type="primary" onClick={this.saveNewUser}>
                     Adicionar Coluna
                 </Button>
             );
@@ -376,9 +363,25 @@ class UserRecord extends Component {
                 key: "action",
                 render: (text, record) => (
                     <span>
-                        <a style={{ paddingLeft: "20px", paddingRight: "30px"}} onClick={() => this.handleUpdateUser(record)}><EditOutlined style={{ color: "#ea7e02" }} /></a>
-                        <span className="ant-divider" />
-                        <a onClick={() => this.handleDeleteUser(record)}><DeleteOutlined style={{ color: "#ea7e02" }} /></a>
+                        <Button
+                            type="primary"
+                            className="buttonEdit"
+                            onClick={() => this.handleUpdateUser(record)}
+                        >
+                            Editar
+                        </Button>
+                        <Divider type="vertical" />
+                        <Popconfirm
+                            title="Deletar Coluna?"
+                            description="Tem certeza que deseja deletar essa coluna?"
+                            okText="Sim"
+                            cancelText="Não"
+                            onConfirm={() => this.handleDeleteUser(record)}
+                        >
+                            <Button danger>
+                                Deletar
+                            </Button>
+                        </Popconfirm>
                     </span>
                 )
             }
@@ -393,7 +396,7 @@ class UserRecord extends Component {
         return (
             <div>
                 <Form {...layoutProps} ref={this.formRef} style={{ marginTop: "15px" }}>
-                    <FormItem label="Nome da Coluna" required tooltip="Título da coluna que está arquivo Excel" {...formItemLayout}>
+                    <FormItem label="Nome da Coluna" required tooltip="Título da coluna que está na planilha." {...formItemLayout}>
                         <Input
                             type="text"
                             value={this.state.newUser.name}
@@ -450,11 +453,12 @@ class UserRecord extends Component {
                             <FormItem {...buttonItemLayout}>{button}</FormItem>
                         </Col>
                         <Col span={2} offset={18} >
-                            <FormItem><Button className="buttonConfirm" type="primary" size="default" style={{ width: "100%"}}><Link to="/">Pronto</Link></Button></FormItem>
+                            <FormItem><Button className="buttonConfirm" type="primary" size="default" style={{ width: "100%" }}><Link to="/">Pronto</Link></Button></FormItem>
                         </Col>
                     </Row>
                 </Form>
                 <Table
+                    bordered
                     rowKey={record => record.id}
                     {...this.state.tableConfiguration}
                     columns={columns}

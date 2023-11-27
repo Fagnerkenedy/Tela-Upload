@@ -12,12 +12,12 @@ function Fields() {
     
     return (
         <Layout className="layout">
-            <Content style={{ background: "#fff", padding: "0 100px" }}>
+            <Content style={{ background: "#fff", padding: "0 200px" }}>
                 <div style={{ background: "#fff", minHeight: 280 }}>
                     {/* <img src={logo} className="App-logo" alt="logo" /> */}
                     <Row>
-                        <Col span={6} offset={9}>
-                            <Title level={2} style={{ fontFamily: "'Montserrat', sans- serif", marginTop: "25px", textAlign: "center"}}>Adicionar Colunas</Title>
+                        <Col span={24}>
+                            <Title level={2} style={{ fontFamily: "'Montserrat', sans- serif", marginTop: "30px", textAlign: "center"}}>Adicionar Colunas</Title>
                         </Col>
                     </Row>
                     <FieldRecord />
